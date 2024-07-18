@@ -1,0 +1,131 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 1em;
+}
+
+button,
+a {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: lightgray;
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
+}
+
+table {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  & thead > tr {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 2px solid #999;
+    & th {
+      display: flex;
+      flex: 1;
+      padding: 8px;
+      text-align: center;
+      align-items: center;
+      white-space: nowrap;
+      & .sort-arrows {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        & svg {
+          margin-left: 4px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  & tbody {
+    display: flex;
+    flex-direction: column;
+    & tr:nth-child(odd) {
+      background-color: #f9f9f9;
+    }
+    & tr {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      border-bottom: 1px solid #ccc;
+      & td {
+        flex: 1;
+        padding: 8px;
+      }
+    }
+  }
+  & tfoot {
+    padding: 1em 0;
+  }
+}
+/* tr {
+  border-bottom: 1px solid #ccc;
+  & th,
+  td {
+    flex: 1;
+    padding: 8px;
+    text-align: center;
+  }
+} */
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.input-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 16px 0;
+  & input,
+  select {
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    outline: none;
+  }
+}
+
+.table-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  &.input-field,
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    & select {
+      margin: 0 8px;
+    }
+  }
+}
+
+.table-footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2em 0;
+  & .pagination span {
+    margin: 0 1em;
+  }
+}
