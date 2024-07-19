@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Input from "../components/Input";
 import { departments, states } from "../assets/data";
+import Modal from "../components/Modal";
 
 export default function HomePage() {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ export default function HomePage() {
     zipCode: "",
     department: "",
   });
+  const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,7 +31,22 @@ export default function HomePage() {
     employees.push(formData);
     localStorage.setItem("employees", JSON.stringify(employees));
 
-    alert("Employee data saved!");
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setFormData({
+      firstName: "",
+      lastName: "",
+      dateOfBirth: "",
+      startDate: "",
+      street: "",
+      city: "",
+      state: "",
+      zipCode: "",
+      department: "",
+    });
   };
 
   return (
@@ -111,6 +128,7 @@ export default function HomePage() {
         />
       </form>
       <button onClick={handleSubmit}>Save</button>
+      {showModal && <Modal content="Employee Created" closeModal={closeModal} />}
     </div>
   );
 }
