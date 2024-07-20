@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Input from "../components/Input";
 import { departments, states } from "../assets/data";
@@ -128,7 +128,9 @@ export default function HomePage() {
         />
       </form>
       <button onClick={handleSubmit}>Save</button>
-      {showModal && <Modal content="Employee Created" closeModal={closeModal} />}
+      {showModal && (
+        <Modal content="Employee Created" closeModal={closeModal} />
+      )}
     </div>
   );
 }

@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import Input from "../components/Input";
 import {
   rowsPerPageOptions,
-  paginationOptions,
   tableHeaders,
+  mockEmployees,
 } from "../assets/data";
 import UpArrow from "../components/UpArrow";
 import DownArrow from "../components/DownArrow";
@@ -13,7 +13,6 @@ export default function EmployeesList() {
   const [employees, setEmployees] = useState([]);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [search, setSearch] = useState("");
-  const [pagination, setPagination] = useState({ from: 1, to: 10, label: 10 });
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(0);
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
@@ -39,8 +38,12 @@ export default function EmployeesList() {
   };
 
   const numberOfPages = () => {
-    return Math.ceil(filteredEmployees.length / rowsPerPage);
+    return Math.ceil(employees.length / rowsPerPage);
   };
+
+  useEffect(() => {
+    localStorage.setItem("employees", JSON.stringify(mockEmployees));
+  }, []);
 
   useEffect(() => {
     const storedEmployees = JSON.parse(localStorage.getItem("employees")) || [];
@@ -49,22 +52,29 @@ export default function EmployeesList() {
   }, []);
 
   useEffect(() => {
-    setFilteredEmployees(
-      employees.filter((employee) => {
-        return (
-          employee.firstName.toLowerCase().includes(search.toLowerCase()) ||
-          employee.lastName.toLowerCase().includes(search.toLowerCase()) ||
-          employee.startDate.toLowerCase().includes(search.toLowerCase()) ||
-          employee.department.toLowerCase().includes(search.toLowerCase()) ||
-          employee.dateOfBirth.toLowerCase().includes(search.toLowerCase()) ||
-          employee.street.toLowerCase().includes(search.toLowerCase()) ||
-          employee.city.toLowerCase().includes(search.toLowerCase()) ||
-          employee.state.toLowerCase().includes(search.toLowerCase()) ||
-          employee.zipCode.toLowerCase().includes(search.toLowerCase())
-        );
-      })
-    );
-  }, [search, employees]);
+    function displayEmployees() {
+      const start = currentPage * rowsPerPage;
+      const end = start + rowsPerPage;
+      return employees
+
+        .filter((employee) => {
+          return (
+            employee.firstName.toLowerCase().includes(search.toLowerCase()) ||
+            employee.lastName.toLowerCase().includes(search.toLowerCase()) ||
+            employee.startDate.toLowerCase().includes(search.toLowerCase()) ||
+            employee.department.toLowerCase().includes(search.toLowerCase()) ||
+            employee.dateOfBirth.toLowerCase().includes(search.toLowerCase()) ||
+            employee.street.toLowerCase().includes(search.toLowerCase()) ||
+            employee.city.toLowerCase().includes(search.toLowerCase()) ||
+            employee.state.toLowerCase().includes(search.toLowerCase()) ||
+            employee.zipCode.toLowerCase().includes(search.toLowerCase())
+          );
+        })
+        .slice(start, end);
+    }
+
+    setFilteredEmployees(displayEmployees());
+  }, [search, employees, currentPage, rowsPerPage]);
 
   return (
     <>
@@ -117,9 +127,8 @@ export default function EmployeesList() {
         </thead>
         <tbody>
           {filteredEmployees.length > 0 ? (
-            filteredEmployees
-              .slice(pagination.from - 1, pagination.from - 1 + rowsPerPage)
-              .map((employee, index) => (
+            filteredEmployees.map((employee, index) => {
+              return (
                 <tr key={index}>
                   <td>{employee.firstName}</td>
                   <td>{employee.lastName}</td>
@@ -131,7 +140,8 @@ export default function EmployeesList() {
                   <td>{employee.state}</td>
                   <td>{employee.zipCode}</td>
                 </tr>
-              ))
+              );
+            })
           ) : (
             <tr>
               <td colSpan="9">No data available in table</td>
@@ -146,9 +156,7 @@ export default function EmployeesList() {
         <div className="pagination">
           <button
             onClick={() => {
-              currentPage > 0 &&
-                (setCurrentPage(currentPage - 1),
-                setPagination(paginationOptions[currentPage - 1]));
+              currentPage > 0 && setCurrentPage(currentPage - 1);
             }}
           >
             Previous
@@ -157,8 +165,7 @@ export default function EmployeesList() {
           <button
             onClick={() => {
               currentPage + 1 < numberOfPages() &&
-                (setCurrentPage(currentPage + 1),
-                setPagination(paginationOptions[currentPage + 1]));
+                setCurrentPage(currentPage + 1);
             }}
           >
             Next
