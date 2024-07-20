@@ -4,7 +4,7 @@ import Input from "../components/Input";
 import {
   rowsPerPageOptions,
   tableHeaders,
-  mockEmployees,
+  // mockEmployees,
 } from "../assets/data";
 import UpArrow from "../components/UpArrow";
 import DownArrow from "../components/DownArrow";
@@ -41,9 +41,9 @@ export default function EmployeesList() {
     return Math.ceil(employees.length / rowsPerPage);
   };
 
-  useEffect(() => {
-    localStorage.setItem("employees", JSON.stringify(mockEmployees));
-  }, []);
+  // useEffect(() => {
+  //   localStorage.setItem("employees", JSON.stringify(mockEmployees));
+  // }, []);
 
   useEffect(() => {
     const storedEmployees = JSON.parse(localStorage.getItem("employees")) || [];
