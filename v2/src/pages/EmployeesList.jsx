@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Input from "../components/Input";
-import {
-  rowsPerPageOptions,
-} from "../assets/data";
+import { rowsPerPageOptions } from "../assets/data";
 import Table from "../components/Table";
+import { EmployeesContext } from "../App";
 
 export default function EmployeesList() {
-  const [employees, setEmployees] = useState([]);
+  const { employees, setEmployees } = useContext(EmployeesContext);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [search, setSearch] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -39,9 +38,7 @@ export default function EmployeesList() {
   };
 
   useEffect(() => {
-    const storedEmployees = JSON.parse(localStorage.getItem("employees")) || [];
-    setEmployees(storedEmployees);
-    setFilteredEmployees(storedEmployees);
+    setFilteredEmployees(employees);
   }, []);
 
   useEffect(() => {
@@ -94,7 +91,11 @@ export default function EmployeesList() {
           onChange={(e) => setSearch(e.target.value)}
         />
       </section>
-      <Table sortTable={sortTable} sortConfig={sortConfig} filteredEmployees={filteredEmployees} />
+      <Table
+        sortTable={sortTable}
+        sortConfig={sortConfig}
+        filteredEmployees={filteredEmployees}
+      />
       <section className="table-footer">
         <p>
           Showing {filteredEmployees.length} of {employees.length} entries

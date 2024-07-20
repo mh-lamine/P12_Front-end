@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Input from "../components/Input";
 import { departments, states } from "../assets/data";
 import Modal from "custom-success-modal";
+import { EmployeesContext } from "../App";
 
 export default function HomePage() {
+  const { employees, setEmployees } = useContext(EmployeesContext);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -27,10 +29,7 @@ export default function HomePage() {
   };
 
   const handleSubmit = () => {
-    const employees = JSON.parse(localStorage.getItem("employees")) || [];
-    employees.push(formData);
-    localStorage.setItem("employees", JSON.stringify(employees));
-
+    setEmployees((prevEmployees) => [...prevEmployees, formData]);
     setShowModal(true);
   };
 
