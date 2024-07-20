@@ -1,12 +1,5 @@
 export const rowsPerPageOptions = [10, 25, 50, 100];
 
-export const paginationOptions = [
-  { from: 1, to: 10, label: 10 },
-  { from: 11, to: 25, label: 25 },
-  { from: 26, to: 50, label: 50 },
-  { from: 51, to: 100, label: 100 },
-];
-
 export const tableHeaders = [
   { label: "First Name", key: "firstName" },
   { label: "Last Name", key: "lastName" },
