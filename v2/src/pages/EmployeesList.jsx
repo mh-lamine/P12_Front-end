@@ -3,11 +3,9 @@ import { Link } from "react-router-dom";
 import Input from "../components/Input";
 import {
   rowsPerPageOptions,
-  tableHeaders,
-  // mockEmployees,
+  mockEmployees,
 } from "../assets/data";
-import UpArrow from "../components/UpArrow";
-import DownArrow from "../components/DownArrow";
+import Table from "../components/Table";
 
 export default function EmployeesList() {
   const [employees, setEmployees] = useState([]);
@@ -101,54 +99,7 @@ export default function EmployeesList() {
           onChange={(e) => setSearch(e.target.value)}
         />
       </section>
-      <table>
-        <thead>
-          <tr>
-            {tableHeaders.map((header, index) => (
-              <th key={index} onClick={() => sortTable(header.key)}>
-                {header.label}
-                <span className="sort-arrows">
-                  {sortConfig.key === header.key ? (
-                    sortConfig.direction === "asc" ? (
-                      <UpArrow size={16} />
-                    ) : (
-                      <DownArrow size={16} />
-                    )
-                  ) : (
-                    <>
-                      <UpArrow size={16} />
-                      <DownArrow size={16} />
-                    </>
-                  )}
-                </span>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {filteredEmployees.length > 0 ? (
-            filteredEmployees.map((employee, index) => {
-              return (
-                <tr key={index}>
-                  <td>{employee.firstName}</td>
-                  <td>{employee.lastName}</td>
-                  <td>{employee.startDate}</td>
-                  <td>{employee.department}</td>
-                  <td>{employee.dateOfBirth}</td>
-                  <td>{employee.street}</td>
-                  <td>{employee.city}</td>
-                  <td>{employee.state}</td>
-                  <td>{employee.zipCode}</td>
-                </tr>
-              );
-            })
-          ) : (
-            <tr>
-              <td colSpan="9">No data available in table</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      <Table sortTable={sortTable} sortConfig={sortConfig} filteredEmployees={filteredEmployees} />
       <section className="table-footer">
         <p>
           Showing {filteredEmployees.length} of {employees.length} entries
