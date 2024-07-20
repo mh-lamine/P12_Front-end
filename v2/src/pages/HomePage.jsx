@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Input from "../components/Input";
 import { departments, states } from "../assets/data";
-import Modal from "../components/Modal";
+import Modal from "custom-success-modal";
 
 export default function HomePage() {
   const [formData, setFormData] = useState({
