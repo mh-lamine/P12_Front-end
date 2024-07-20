@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Input from "../components/Input";
 import {
   rowsPerPageOptions,
-  mockEmployees,
 } from "../assets/data";
 import Table from "../components/Table";
 
@@ -38,10 +37,6 @@ export default function EmployeesList() {
   const numberOfPages = () => {
     return Math.ceil(employees.length / rowsPerPage);
   };
-
-  // useEffect(() => {
-  //   localStorage.setItem("employees", JSON.stringify(mockEmployees));
-  // }, []);
 
   useEffect(() => {
     const storedEmployees = JSON.parse(localStorage.getItem("employees")) || [];
